@@ -7,7 +7,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 
 @Path("/healthz")
-public class HealthStatus {
+public class Hello {
 
     @GET
     @Produces({"application/json"})
