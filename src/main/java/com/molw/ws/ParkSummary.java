@@ -32,7 +32,7 @@ public class ParkSummary {
         hashMap.put("postgis.user", "userxaok5" );
         hashMap.put("postgis.password","R7xnmB8tkAaFEA0mm8fg");
         hashMap.put("postgis.db","birds");
-        /*
+
         SparkSession spark = SparkSession.builder()
                 .appName("Analyzing Parks In The Birds")
                 .config("spark.sql.crossJoin.enabled", "true")
@@ -48,7 +48,7 @@ public class ParkSummary {
 
         Dataset<Row> numberOfObsDF = spark.sql("select count(observation_count) from birdobs");
         numberOfObsDF.show();
-        */
+        
         return simpleParks;
 
     }
