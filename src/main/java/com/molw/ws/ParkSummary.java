@@ -1,9 +1,12 @@
 package com.molw.ws;
 
 import com.molw.data.SimplePark;
+import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+
+import org.geotools.data.*;
 
 import javax.json.Json;
 import javax.ws.rs.GET;
@@ -20,6 +23,8 @@ This method gets all the counts of all the birds in the different parks and summ
 @Path("/parksummary")
 
 public class ParkSummary {
+    static Logger logger = Logger.getLogger(ParkSummary.class);
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<SimplePark> getParksSummary(){
@@ -33,6 +38,19 @@ public class ParkSummary {
         hashMap.put("postgis.password","R7xnmB8tkAaFEA0mm8fg");
         hashMap.put("postgis.db","birds");
 
+        logger.info("After properties");
+
+        try {
+
+            DataStore ds = DataStoreFinder.getDataStore(hashMap);
+            logger.info("hey there " + ds.getTypeNames());
+            
+
+        } catch (Exception e){
+            logger.info("Exception " + e.getMessage());
+        }
+
+        /*
         SparkSession spark = SparkSession.builder()
                 .appName("Analyzing Parks In The Birds")
                 .config("spark.sql.crossJoin.enabled", "true")
@@ -42,13 +60,13 @@ public class ParkSummary {
         Dataset<Row> df = spark.read()
                 .format("geomesa")
                 .options(hashMap)
-                .option("geomesa.features", "birdobs")
+                .option("geomesa.feature", "birdobs")
                 .load();
         df.createOrReplaceTempView("birdobs");
 
         Dataset<Row> numberOfObsDF = spark.sql("select count(observation_count) from birdobs");
         numberOfObsDF.show();
-        
+        */
         return simpleParks;
 
     }
