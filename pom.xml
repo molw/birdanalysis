@@ -95,6 +95,37 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>thesteve0/birdanalysis:0.2.1</name>
+                            <build>
+                                <env>
+                                    <SPARK_USER>elmiko</SPARK_USER>
+                                </env>
+                                <from>fabric8/java-jboss-openjdk8-jdk</from>
+                                <ports>
+                                    <port>
+                                        8080
+                                    </port>
+                                </ports>
+                                <assembly>
+                                    <descriptorRef>artifact-with-dependencies</descriptorRef>
+                                </assembly>
+                                <env>
+                                    <JAVA_APP_DIR>/maven</JAVA_APP_DIR>
+                                    <JAVA_MAIN_CLASS>io.thorntail.Thorntail</JAVA_MAIN_CLASS>
+                                </env>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+
+
         </plugins>
     </build>
 

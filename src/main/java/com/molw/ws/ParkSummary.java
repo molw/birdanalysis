@@ -32,13 +32,13 @@ public class ParkSummary {
 
         //Set up the spark properties
         HashMap<String,String> hashMap= new HashMap<String,String>();
-        hashMap.put("postgis.host","postgis-birds-replica");
+        hashMap.put("postgis.host",System.getenv("POSTGIS_BIRDS_REPLICA_SERVICE_HOST"));
         hashMap.put("posgis.port", "5432");
         hashMap.put("postgis.user", "userxaok5" );
         hashMap.put("postgis.password","R7xnmB8tkAaFEA0mm8fg");
         hashMap.put("postgis.db","birds");
 
-        logger.info("After properties");
+        logger.info("After properties - YES");
 
         try {
 
@@ -47,14 +47,14 @@ public class ParkSummary {
             
 
         } catch (Exception e){
-            logger.info("Exception " + e.getMessage());
+            logger.info("!!!!Exception " + e.getMessage());
         }
 
-        /*
+
         SparkSession spark = SparkSession.builder()
                 .appName("Analyzing Parks In The Birds")
                 .config("spark.sql.crossJoin.enabled", "true")
-                .master("local[*]")
+                .master("spark://sparky:7077")
                 .getOrCreate();
 
         Dataset<Row> df = spark.read()
@@ -66,7 +66,7 @@ public class ParkSummary {
 
         Dataset<Row> numberOfObsDF = spark.sql("select count(observation_count) from birdobs");
         numberOfObsDF.show();
-        */
+
         return simpleParks;
 
     }
