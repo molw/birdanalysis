@@ -27,28 +27,27 @@ public class ParkSummary {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<SimplePark> getParksSummary(){
+    public ArrayList<SimplePark> getParksSummary() throws Exception{
         ArrayList<SimplePark> simpleParks = new ArrayList<SimplePark>();
 
         //Set up the spark properties
         HashMap<String,String> hashMap= new HashMap<String,String>();
         hashMap.put("postgis.host",System.getenv("POSTGIS_BIRDS_REPLICA_SERVICE_HOST"));
-        hashMap.put("posgis.port", "5432");
+        hashMap.put("postgis.port", "5432");
         hashMap.put("postgis.user", "userxaok5" );
         hashMap.put("postgis.password","R7xnmB8tkAaFEA0mm8fg");
         hashMap.put("postgis.db","birds");
 
-        logger.info("After properties - YES");
+        logger.info("After properties - You Bet");
+        hashMap.forEach((key, value) -> logger.info("Key: " + key + " Value: " + value));
 
-        try {
 
-            DataStore ds = DataStoreFinder.getDataStore(hashMap);
-            logger.info("hey there " + ds.getTypeNames());
+        DataStoreFinder.getAvailableDataStores();
+        logger.info("After get Available DataStores");
+        DataStore ds = DataStoreFinder.getDataStore(hashMap);
+        logger.info("hey there " + ds.getTypeNames());
             
 
-        } catch (Exception e){
-            logger.info("!!!!Exception " + e.getMessage());
-        }
 
 
         SparkSession spark = SparkSession.builder()
