@@ -7,6 +7,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 import org.geotools.data.*;
+import org.geotools.data.postgis.PostgisNGDataStoreFactory;
 
 import javax.json.Json;
 import javax.ws.rs.GET;
@@ -31,21 +32,28 @@ public class ParkSummary {
         ArrayList<SimplePark> simpleParks = new ArrayList<SimplePark>();
 
         //Set up the spark properties
-        HashMap<String,String> hashMap= new HashMap<String,String>();
-        hashMap.put("postgis.host",System.getenv("POSTGIS_BIRDS_REPLICA_SERVICE_HOST"));
-        hashMap.put("postgis.port", "5432");
-        hashMap.put("postgis.user", "userxaok5" );
-        hashMap.put("postgis.password","R7xnmB8tkAaFEA0mm8fg");
-        hashMap.put("postgis.db","birds");
+        HashMap<String,String> params= new HashMap<String,String>();
+        params.put("dbtype", "postgis");
+        params.put("postgis.host",System.getenv("POSTGIS_BIRDS_REPLICA_SERVICE_HOST"));
+        //params.put("postgis.port", 5432);
+        params.put("postgis.user", "userxaok5" );
+        params.put("postgis.password","R7xnmB8tkAaFEA0mm8fg");
+        params.put("schema", "public");
+        params.put("postgis.db","birds");
 
         logger.info("After properties - You Bet");
-        hashMap.forEach((key, value) -> logger.info("Key: " + key + " Value: " + value));
+        params.forEach((key, value) -> logger.info("Key: " + key + " Value: " + value));
+
+        try {
+
+            PostgisNGDataStoreFactory factory = new PostgisNGDataStoreFactory();
+            DataStore datastore = factory.createDataStore(params);
+
+        } catch (Exception e){
+            logger.info("!!!!! Threw exception " + e.getCause() + " :: " + e.getMessage());
+        }
 
 
-        DataStoreFinder.getAvailableDataStores();
-        logger.info("After get Available DataStores");
-        DataStore ds = DataStoreFinder.getDataStore(hashMap);
-        logger.info("hey there " + ds.getTypeNames());
             
 
 
@@ -58,7 +66,7 @@ public class ParkSummary {
 
         Dataset<Row> df = spark.read()
                 .format("geomesa")
-                .options(hashMap)
+                .options(params)
                 .option("geomesa.feature", "birdobs")
                 .load();
         df.createOrReplaceTempView("birdobs");
