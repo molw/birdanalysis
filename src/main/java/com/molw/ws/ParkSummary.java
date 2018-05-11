@@ -34,12 +34,12 @@ public class ParkSummary {
         //Set up the spark properties
         HashMap<String,String> params= new HashMap<String,String>();
         params.put("dbtype", "postgis");
-        params.put("postgis.host",System.getenv("POSTGIS_BIRDS_REPLICA_SERVICE_HOST"));
-        //params.put("postgis.port", 5432);
-        params.put("postgis.user", "userxaok5" );
-        params.put("postgis.password","R7xnmB8tkAaFEA0mm8fg");
+        params.put("host",System.getenv("POSTGIS_BIRDS_REPLICA_SERVICE_HOST"));
+        params.put("port", "5432");
+        params.put("user", "userxaok5" );
+        params.put("passwd","R7xnmB8tkAaFEA0mm8fg");
         params.put("schema", "public");
-        params.put("postgis.db","birds");
+        params.put("database","birds");
 
         logger.info("After properties - You Bet");
         params.forEach((key, value) -> logger.info("Key: " + key + " Value: " + value));

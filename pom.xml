@@ -47,16 +47,21 @@
             <artifactId>geomesa-spark-geotools_2.11</artifactId>
             <version>2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.locationtech.geomesa</groupId>
+            <artifactId>geomesa-spark-sql_2.11</artifactId>
+            <version>2.0.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.geotools.jdbc/gt-jdbc-postgis -->
         <dependency>
             <groupId>org.geotools.jdbc</groupId>
             <artifactId>gt-jdbc-postgis</artifactId>
-            <version>19.0</version>
+            <version>18.0</version>
         </dependency>
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-jdbc</artifactId>
-            <version>19.0</version>
+            <version>18.0</version>
         </dependency>
         <dependency>
             <groupId>net.postgis</groupId>
@@ -103,7 +108,7 @@
                 <configuration>
                     <images>
                         <image>
-                            <name>thesteve0/birdanalysis:0.2.7</name>
+                            <name>thesteve0/birdanalysis:0.2.15</name>
                             <build>
                                 <env>
                                     <SPARK_USER>elmiko</SPARK_USER>
