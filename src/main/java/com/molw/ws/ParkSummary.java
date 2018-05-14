@@ -1,6 +1,7 @@
 package com.molw.ws;
 
 import com.molw.data.SimplePark;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -9,14 +10,12 @@ import org.apache.spark.sql.SparkSession;
 import org.geotools.data.*;
 import org.geotools.data.postgis.PostgisNGDataStoreFactory;
 
-import javax.json.Json;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 
 /*
 This method gets all the counts of all the birds in the different parks and summarizes by park
@@ -24,6 +23,9 @@ This method gets all the counts of all the birds in the different parks and summ
 @Path("/parksummary")
 
 public class ParkSummary {
+
+    //UserGroupInformation.setLoginUser(UserGroupInformation.createRemoteUser("hduser"));
+
     static Logger logger = Logger.getLogger(ParkSummary.class);
 
     @GET
